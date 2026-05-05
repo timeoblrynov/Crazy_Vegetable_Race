@@ -1,0 +1,13 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.btn-secondary {
+    background-color: rebeccapurple;
+}
+
+.Score-Debut {
+    color: red;
+    background-color: rebeccapurple;
+}
