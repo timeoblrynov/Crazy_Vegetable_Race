@@ -21,10 +21,11 @@ setInterval(function() {
     var cTop = -(500-itemsTop);
 
 
-    if((itemsTop > 480) || ((blockLeft < 20)&&(blockLeft > -50)&&((cTop < spaceTop)||(cTop > spaceTop + 130)))) {
+    if((itemsTop > 880) || ((blockLeft < 20)&&(blockLeft > -50)&&((cTop < spaceTop)||(cTop > spaceTop + 130)))) {
         alert("Game over" + counter);
         items.style.top = 100 + "px";
         counter = 0;
+        
     }
 },10);
 
