@@ -1,3 +1,15 @@
+var canvas = document.getElementById('gameCanvas');
+var ctx = canvas.getContext('2d');
+
+var W = canvas.width;
+var H = canvas.height; 
+
+var hudPieces = document.getElementById('hudPieces');
+var hudTemps = document.getElementById('hudTemps');
+var hudNiveau = document.getElementById('hudNiveau');
+
+
+
 function dessinerFond() {
   var ciel = ctx.createLinearGradient(0, 0, 0, SOL);
   ciel.addColorStop(0, '#5bc8f5');
