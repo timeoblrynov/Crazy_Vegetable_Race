@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crazy Vegetable Race</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="gameWrapper">
+        <canvas id="bgCanvas"></canvas>
+        <canvas id="gameCanvas"></canvas>
+
+
+        <div id="homeScreen" class="screen">
+            <div class="game-title">CRAZY<br>VEGETABLE<br>RACE</div>
+            <div class="big-turnip" id="homeTurnip">🥕</div>
+                <button class="btn btn-play" onclick="startIntro()">▶ JOUER</button>
+            <div style="display:flex;gap:10px;margin-top:10px;">
+                <button class="btn btn-shop" onclick="openShop()">🛒 BOUTIQUE</button>
+                <button class="btn btn-secondary" onclick="openSettings('home')">⚙️ OPTIONS</button>
+            </div>
+            <div class="best-score-home">Meilleur score : <span id="homeBest">0</span></div>
+        </div>
+
+
+        <div id="introOverlay" class="hidden">
+            <div id="introChar">🥕</div>
+            <div id="introText"></div>
+        </div>
+
+
+        <div id="hud" class="hidden">
+            <div id="scoreDisplay">0</div>
+            <button id="pauseBtn" onclick="togglePause()">⏸</button>
+            <div id="levelBadge">Niv. 1</div>
+            <div id="hudBottom">
+                <div class="hud-badge"><span class="icon">🪙</span><span id="hudCoins">0</span></div>
+                <div class="hud-badge"><span class="icon">⏱</span><span id="hudTime">0:00</span></div>
+            </div>
+        </div>
+        <div id="notice" class="hidden">ESPACE ou CLIC pour sauter !</div>
+        <div id="levelUpBanner">🎉 NIVEAU 2 !</div>
+
+
+        <div id="pauseScreen" class="screen hidden">
+            <div class="pause-title">⏸ PAUSE</div>
+            <button class="btn btn-play" onclick="togglePause()">▶ REPRENDRE</button>
+            <button class="btn btn-secondary" style="margin-top:10px;" onclick="openSettings('pause')">⚙️
+                OPTIONS</button>
+            <button class="btn btn-danger" style="margin-top:10px;" onclick="backToMenu()">🏠 MENU</button>
+        </div>
+
+
+        <div id="settingsScreen" class="screen hidden">
+            <div class="settings-title">⚙️ OPTIONS</div>
+            <div class="settings-group">
+                <div class="settings-label">Audio</div>
+                <div class="settings-row">
+                    <label>Musique</label>
+                    <input type="range" min="0" max="100" id="musicVol" oninput="updateSetting('music',this.value)">
+                    <span class="range-val" id="musicVal">70</span>
+                </div>
+                <div class="settings-row">
+                    <label>Effets</label>
+                    <input type="range" min="0" max="100" id="sfxVol" oninput="updateSetting('sfx',this.value)">
+                    <span class="range-val" id="sfxVal">80</span>
+                </div>
+            </div>
+            <div class="settings-group">
+                <div class="settings-label">Contrôles</div>
+                <div class="settings-row">
+                    <label>Force du saut</label>
+                    <input type="range" min="1" max="10" id="jumpSens" oninput="updateSetting('jump',this.value)">
+                    <span class="range-val" id="jumpVal">5</span>
+                </div>
+            </div>
+            <button class="btn btn-play" onclick="closeSettings()" style="margin-top:14px;">✓ FERMER</button>
+        </div>
+
+
+        <div id="gameOverScreen" class="screen hidden">
+            <div style="font-size:64px;margin-bottom:10px;animation:bounce 0.8s ease infinite;" id="overEmoji">💥</div>
+            <div class="over-title">GAME OVER</div>
+            <div class="result-row">
+                <div class="result-card">
+                    <div class="label">Score</div>
+                    <div class="value" id="overScore">0</div>
+                </div>
+                <div class="result-card">
+                    <div class="label">Meilleur</div>
+                    <div class="value best" id="overBest">0</div>
+                </div>
+                <div class="result-card">
+                    <div class="label">Survie</div>
+                    <div class="value" id="overTime">0:00</div>
+                </div>
+            </div>
+            <div class="coins-earned" id="overCoins">🪙 +0 pièces</div>
+            <button class="btn btn-play" onclick="startIntro()">▶ REJOUER</button>
+            <div style="display:flex;gap:10px;margin-top:10px;">
+                <button class="btn btn-shop" onclick="openShop()">🛒 BOUTIQUE</button>
+                <button class="btn btn-secondary" onclick="backToMenu()">🏠 MENU</button>
+            </div>
+        </div>
+
+
+        <div id="shopScreen" class="screen hidden">
+            <div class="shop-header">
+                <div class="shop-title">🛒 BOUTIQUE</div>
+                <div class="coin-display">🪙 <span id="shopCoins">0</span></div>
+            </div>
+            <div class="skins-grid" id="skinsGrid"></div>
+            <button class="btn btn-secondary" onclick="closeShop()" style="margin-top:20px;">✓ FERMER</button>
+        </div>
+    </div>
+
+    <script src="js/game.js"></script>
+    <script src="js/audio.js"></script>
+    
+</body>
+
+</html>
