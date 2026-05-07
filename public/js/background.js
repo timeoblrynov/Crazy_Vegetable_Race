@@ -288,3 +288,50 @@ function drawKnifeFromFloor(ctx, cx, tipY, w, GROUND) {
   ctx.restore();
 }
 
+//  JOUEUR (emoji avec ombre)
+function drawPlayer(ctx, px, py, pw, ph, GROUND, vy = 0, emoji = '🥕') {
+  // Ombre projetée au sol
+  const dist        = GROUND - (py + ph);
+  const shadowAlpha = Math.max(0.05, 0.35 - dist * 0.0012);
+  const shadowScaleX = Math.max(0.4, 1 - dist * 0.003);
+  ctx.save();
+  ctx.fillStyle = `rgba(0,0,0,${shadowAlpha})`;
+  ctx.beginPath();
+  ctx.ellipse(px + pw / 2, GROUND - 2, 22 * shadowScaleX, 5, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+
+  // Emoji
+  ctx.save();
+  ctx.translate(px + pw / 2, py + ph / 2);
+  const tilt = Math.max(-0.5, Math.min(0.5, vy * 0.04));
+  ctx.rotate(tilt);
+  const ec   = getEmojiCanvas(emoji, pw);
+  const half = (pw + 8) / 2;
+  ctx.drawImage(ec, -half, -half);
+  ctx.restore();
+}
+
+//  PIÈCE (emoji animée)
+function drawCoin(ctx, cx, cy, anim = 0) {
+  ctx.save();
+  ctx.translate(cx, cy);
+  const scale = 1 + Math.sin(anim) * 0.1;
+  ctx.scale(scale, scale);
+  const ec = getEmojiCanvas('🪙', 22);
+  ctx.drawImage(ec, -15, -15);
+  ctx.restore();
+}
+
+//  PARTICULES
+function drawParticles(ctx, particles) {
+  particles.forEach(p => {
+    ctx.save();
+    ctx.globalAlpha = p.alpha;
+    ctx.fillStyle = p.color;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  });
+}
