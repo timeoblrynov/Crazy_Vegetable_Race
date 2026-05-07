@@ -177,3 +177,89 @@ canvas {
   white-space: nowrap;
 }
 
+#badgeNiveau.visible {
+  opacity: 1;
+}
+
+#grilleSkins {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+  max-width: 520px;
+}
+
+.carteSkin {
+  background: rgba(255,255,255,0.07);
+  border: 2px solid rgba(255,255,255,0.12);
+  border-radius: 14px;
+  padding: 12px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.carteSkin.possede {
+  border-color: #4ecb71;
+}
+
+.carteSkin.equipe {
+  border-color: #f5c842;
+  background: rgba(245,200,66,0.12);
+}
+
+.carteSkin .emoji {
+  font-size: 34px;
+  display: block;
+}
+
+.carteSkin .nom {
+  font-size: 12px;
+  color: #ccc;
+  margin-top: 4px;
+  font-weight: 700;
+}
+
+.carteSkin .prix {
+  font-size: 12px;
+  color: #f5c842;
+  margin-top: 4px;
+  font-weight: 700;
+}
+
+.affichagePieces {
+  font-family: 'Fredoka One', cursive;
+  font-size: 20px;
+  color: #f5c842;
+  margin-bottom: 16px;
+}
+
+.stats {
+  color: #cde;
+  font-size: 15px;
+  margin-bottom: 22px;
+  text-align: center;
+  line-height: 2.2;
+  font-weight: 700;
+}
+
+.stats span {
+  color: #4ecb71;
+  font-size: 18px;
+}
+
+.ligne {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 340px;
+  margin-bottom: 18px;
+  color: #cde;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+input[type="range"] {
+  width: 160px;
+  accent-color: #4ecb71;
+}
