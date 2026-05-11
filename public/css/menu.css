@@ -1,5 +1,5 @@
 
- /** {
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -157,4 +157,4 @@ body {
 @keyframes bounce {
   0%, 100% { transform: translateY(0px) rotate(-4deg); }
   50%       { transform: translateY(-14px) rotate(4deg); }
-} */
+}
