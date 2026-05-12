@@ -18,16 +18,20 @@ setInterval(function() {
     var blockLeft = parseInt(window.getComputedStyle(block).getPropertyValue("left"));
     var spaceTop = parseInt(window.getComputedStyle(space).getPropertyValue("top"));
     var itemsTop = parseInt(window.getComputedStyle(items).getPropertyValue("top"));
-    var cTop = -(500-itemsTop);
+    var cTop = itemsTop - 850 + Math.abs(spaceTop) - 50;
 
 
-    if((itemsTop > 880) || ((blockLeft < 20)&&(blockLeft > -50)&&((cTop < spaceTop)||(cTop > spaceTop + 130)))) {
+    if((itemsTop > 880) || ((blockLeft < 20) && (blockLeft > -50) && ((cTop < 0) || (cTop > 150)))) {
         alert("Game over" + counter);
         items.style.top = 100 + "px";
         counter = 0;
         
     }
 },10);
+
+function randomRotation() {
+    return Math.floor(Math.random()*166) - 66;
+}
 
 function jump() {
     jumping = 1;
@@ -36,6 +40,7 @@ function jump() {
         var itemsTop = parseInt(window.getComputedStyle(items).getPropertyValue("top"));
         if((itemsTop > 6)&&(jumpingCount < 15)) {
             items.style.top = (itemsTop - 5) + "px";
+            items.style.rotate = Math.floor(Math.random()*166) - 66;
         }
         
         if(jumpingCount > 20) {
