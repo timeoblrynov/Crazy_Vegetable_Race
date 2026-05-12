@@ -1,0 +1,46 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+#global {
+    height: 850px;
+    border: 1px solid black;
+    overflow: hidden;
+    margin-top: 50px;
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+#block {
+    width : 50px;
+    height: 850px;
+    background-color: black;
+    position: relative;
+    left: 100px;
+    animation: block 5s infinite linear;
+}
+
+@keyframes block {
+    0%{left: 2000px;}
+    100%{left: -50px;}
+}
+
+#space {
+    width: 50px;
+    height: 150px;
+    background-color: white;
+    position: relative;
+    left: 400px;
+    top: -500px;
+    animation: block 5s infinite linear;
+}
+
+#items {
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    top: 100px;
+    border-radius: 50%;
+    margin-left: 40px;
+}
