@@ -49,18 +49,22 @@ space.addEventListener('animationiteration', () => {
   scoreEl.textContent = score;
 });
 
-setInterval(() => {
-  if (gameOver) return;
+space.addEventListener('animationiteration', () => {
+    var random = -((Math.random()*300)+ 150)
+    space.style.top = random + "px";
+});
+
+setInterval(function() {
+    var itemsTop = parseInt(window.getComputedStyle(items).getPropertyValue("top"));
+    if(jumping == 0){
+        items.style.top = (itemsTop + 3) + "px";
+    }
 
     var blockLeft = parseInt(window.getComputedStyle(block).getPropertyValue("left"));
     var spaceTop = parseInt(window.getComputedStyle(space).getPropertyValue("top"));
     var itemsTop = parseInt(window.getComputedStyle(items).getPropertyValue("top"));
     var cTop = itemsTop - 850 + Math.abs(spaceTop) - 50;
 
-  const blockLeft = parseInt(window.getComputedStyle(block).getPropertyValue('left'), 10);
-  const spaceTop = parseInt(window.getComputedStyle(space).getPropertyValue('top'), 10);
-  const currentItemsTop = parseInt(window.getComputedStyle(items).getPropertyValue('top'), 10);
-  const collisionTop = -(500 - currentItemsTop);
 
     if((itemsTop > 880) || ((blockLeft < 20) && (blockLeft > -50) && ((cTop < 0) || (cTop > 150)))) {
         alert("Game over" + counter);
