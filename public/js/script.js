@@ -43,15 +43,10 @@ function endGame() {
 }
 
 space.addEventListener('animationiteration', () => {
-  const random = -((Math.random() * 300) + 150);
+  const random = -((Math.random() * 300) + 200);
   space.style.top = `${random}px`;
   score += 1;
   scoreEl.textContent = score;
-});
-
-space.addEventListener('animationiteration', () => {
-    var random = -((Math.random()*300)+ 150)
-    space.style.top = random + "px";
 });
 
 setInterval(function() {
@@ -60,17 +55,25 @@ setInterval(function() {
         items.style.top = (itemsTop + 3) + "px";
     }
 
-    var blockLeft = parseInt(window.getComputedStyle(block).getPropertyValue("left"));
-    var spaceTop = parseInt(window.getComputedStyle(space).getPropertyValue("top"));
-    var itemsTop = parseInt(window.getComputedStyle(items).getPropertyValue("top"));
-    var cTop = itemsTop - 850 + Math.abs(spaceTop) - 50;
+    const blockRect = block.getBoundingClientRect();
+    const spaceRect = space.getBoundingClientRect();
+    const itemsRect = items.getBoundingClientRect();
+    const globalRect = document.getElementById('global').getBoundingClientRect();
 
+    const hitHorizontally =
+        itemsRect.right > blockRect.left &&
+        itemsRect.left < blockRect.right;
 
-    if((itemsTop > 880) || ((blockLeft < 20) && (blockLeft > -50) && ((cTop < 0) || (cTop > 150)))) {
-        alert("Game over" + counter);
-        items.style.top = 100 + "px";
-        counter = 0;
-        
+    const insideGap =
+        itemsRect.top > spaceRect.top &&
+        itemsRect.bottom < spaceRect.bottom;
+
+    const hitGround =
+        itemsRect.bottom >= globalRect.bottom;
+
+    if (hitGround || (hitHorizontally && !insideGap)) {
+        items.style.top = "100px";
+        endGame();
     }
 },10);
 

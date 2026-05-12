@@ -57,10 +57,10 @@ body {
 
 #space {
   width: 50px;
-  height: 150px;
+  height: 200px;
   background: linear-gradient(#5bc8f5, #a8e8c8);
   position: relative;
-  left: 400px;
+  left: 100px;
   top: -500px;
   animation: block 5s infinite linear;
 }
