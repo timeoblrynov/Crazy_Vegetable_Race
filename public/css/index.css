@@ -1,46 +1,80 @@
 * {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(#5bc8f5, #a8e8c8 45%, #4ecb71 45%, #4ecb71 49%, #8b5e3c 49%, #4a2f12);
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+  user-select: none;
+}
+
+#hud {
+  width: calc(100vw - 50px);
+  margin: 18px 25px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.35);
+}
+
+#hud a {
+  color: white;
+  text-decoration: none;
+  background: rgba(0,0,0,0.3);
+  padding: 8px 14px;
+  border-radius: 999px;
 }
 
 #global {
-    height: 850px;
-    border: 1px solid black;
-    overflow: hidden;
-    margin-top: 50px;
-    margin-left: 25px;
-    margin-right: 25px;
+  position: relative;
+  height: 850px;
+  border: 2px solid rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  margin: 14px 25px 0;
+  background: rgba(255,255,255,0.08);
 }
 
 #block {
-    width : 50px;
-    height: 850px;
-    background-color: black;
-    position: relative;
-    left: 100px;
-    animation: block 5s infinite linear;
+  width: 50px;
+  height: 850px;
+  background: #1d1d1d;
+  position: relative;
+  left: 100px;
+  animation: block 5s infinite linear;
 }
 
 @keyframes block {
-    0%{left: 2000px;}
-    100%{left: -50px;}
+  0% { left: 2000px; }
+  100% { left: -50px; }
 }
 
 #space {
-    width: 50px;
-    height: 150px;
-    background-color: white;
-    position: relative;
-    left: 400px;
-    top: -500px;
-    animation: block 5s infinite linear;
+  width: 50px;
+  height: 150px;
+  background: linear-gradient(#5bc8f5, #a8e8c8);
+  position: relative;
+  left: 400px;
+  top: -500px;
+  animation: block 5s infinite linear;
 }
 
 #items {
-    width: 60px;
-    height: 60px;
-    position: absolute;
-    top: 100px;
-    border-radius: 50%;
-    margin-left: 40px;
+  width: 42px;
+  height: 42px;
+  position: absolute;
+  top: 100px;
+  left: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+  line-height: 1;
+  filter: drop-shadow(0 4px 3px rgba(0,0,0,0.25));
 }
