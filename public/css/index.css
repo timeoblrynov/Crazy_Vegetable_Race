@@ -4,12 +4,12 @@
 }
 
 #global {
-    width: 700px;
     height: 850px;
     border: 1px solid black;
-    margin: auto;
     overflow: hidden;
     margin-top: 50px;
+    margin-left: 25px;
+    margin-right: 25px;
 }
 
 #block {
@@ -17,12 +17,12 @@
     height: 850px;
     background-color: black;
     position: relative;
-    left: 400px;
-    animation: block 1s infinite linear;
+    left: 100px;
+    animation: block 5s infinite linear;
 }
 
 @keyframes block {
-    0%{left: 400px;}
+    0%{left: 2000px;}
     100%{left: -50px;}
 }
 
@@ -33,7 +33,7 @@
     position: relative;
     left: 400px;
     top: -500px;
-    animation: block 1s infinite linear;
+    animation: block 5s infinite linear;
 }
 
 #items {
