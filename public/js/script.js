@@ -52,48 +52,43 @@ space.addEventListener('animationiteration', () => {
 setInterval(() => {
   if (gameOver) return;
 
-  const itemsTop = parseInt(window.getComputedStyle(items).getPropertyValue('top'), 10);
-  if (!jumping) {
-    items.style.top = `${itemsTop + 3}px`;
-  }
+    var blockLeft = parseInt(window.getComputedStyle(block).getPropertyValue("left"));
+    var spaceTop = parseInt(window.getComputedStyle(space).getPropertyValue("top"));
+    var itemsTop = parseInt(window.getComputedStyle(items).getPropertyValue("top"));
+    var cTop = itemsTop - 850 + Math.abs(spaceTop) - 50;
 
   const blockLeft = parseInt(window.getComputedStyle(block).getPropertyValue('left'), 10);
   const spaceTop = parseInt(window.getComputedStyle(space).getPropertyValue('top'), 10);
   const currentItemsTop = parseInt(window.getComputedStyle(items).getPropertyValue('top'), 10);
   const collisionTop = -(500 - currentItemsTop);
 
-  const hitsGround = currentItemsTop > 830;
-  const hitsObstacle = blockLeft < 45 && blockLeft > -50 && (collisionTop < spaceTop || collisionTop > spaceTop + 150);
-
-  if (hitsGround || hitsObstacle) endGame();
-}, 10);
-
-function jump() {
-  if (jumping || gameOver) return;
-
-  jumping = true;
-  let jumpingCount = 0;
-
-  const jumpInterval = setInterval(() => {
-    const itemsTop = parseInt(window.getComputedStyle(items).getPropertyValue('top'), 10);
-
-    if (itemsTop > 6 && jumpingCount < 15) {
-      items.style.top = `${itemsTop - 6}px`;
+    if((itemsTop > 880) || ((blockLeft < 20) && (blockLeft > -50) && ((cTop < 0) || (cTop > 150)))) {
+        alert("Game over" + counter);
+        items.style.top = 100 + "px";
+        counter = 0;
+        
     }
+},10);
 
-    if (jumpingCount > 20) {
-      clearInterval(jumpInterval);
-      jumping = false;
-    }
-
-    jumpingCount += 1;
-  }, 10);
+function randomRotation() {
+    return Math.floor(Math.random()*166) - 66;
 }
 
-document.addEventListener('click', jump);
-document.addEventListener('keydown', (event) => {
-  if (event.code === 'Space' || event.code === 'ArrowUp') {
-    event.preventDefault();
-    jump();
-  }
-});
+function jump() {
+    jumping = 1;
+    let jumpingCount = 0;
+    var jumpInterval = setInterval(function() {
+        var itemsTop = parseInt(window.getComputedStyle(items).getPropertyValue("top"));
+        if((itemsTop > 6)&&(jumpingCount < 15)) {
+            items.style.top = (itemsTop - 5) + "px";
+            items.style.rotate = Math.floor(Math.random()*166) - 66;
+        }
+        
+        if(jumpingCount > 20) {
+            clearInterval(jumpInterval);
+            jumping = 0;
+            jumpingCount = 0;
+        }
+        jumpingCount ++;
+    },10)
+}
