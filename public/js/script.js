@@ -3,6 +3,7 @@ const space = document.getElementById("space");
 const items = document.getElementById("items");
 const scoreEl = document.getElementById("score");
 const time = document.getElementById("time")
+const finishGame = document.getElementById("finishGame")
 
 let jumping = false;
 let score = 0;
@@ -61,7 +62,7 @@ function endGame() {
     alert(
         `Game over\nScore : ${score}\nPièces gagnées : ${Math.floor(score / 2)}\nTemps : ${gameTime}`,
     );
-    resetGame();
+    resetGame()
 }
 
 space.addEventListener("animationiteration", () => {
@@ -113,10 +114,6 @@ setInterval(function () {
         endGame();
     }
 }, 10);
-
-function randomRotation() {
-    return Math.floor(Math.random() * 166) - 66;
-}
 
 function jump() {
     jumping = 1;
