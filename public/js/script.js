@@ -20,6 +20,13 @@ const skinById = {
   ail: "🧄",
 };
 
+const musique = document.getElementById("musique-jeu");
+musique.volume = 0.7;
+musique.play();
+
+const vol = parseFloat(localStorage.getItem('cvr_volume') ?? '0.7');
+musique.volume = vol;
+
 const selectedSkin = localStorage.getItem("cvr_skin") || "carotte";
 items.textContent = skinById[selectedSkin] || "🥕";
 
@@ -57,6 +64,9 @@ function endGame() {
 
     if (score > best) localStorage.setItem("cvr_best", String(score));
     localStorage.setItem("cvr_coins", String(coins + Math.floor(score / 2)));
+
+    musique.pause();
+    musique.currentTime = 0;
 
     alert(
         `Game over\nScore : ${score}\nPièces gagnées : ${Math.floor(score / 2)}\nTemps : ${gameTime}`,

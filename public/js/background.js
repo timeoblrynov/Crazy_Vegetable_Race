@@ -84,209 +84,43 @@ function drawBackground(ctx, W, H, GROUND, bgOffset = 0, cloudX = [130, 360, 600
   }
 }
 
-//  COUTEAU DEPUIS LE PLAFOND
-function drawKnifeFromCeiling(ctx, cx, tipY, w) {
-  ctx.save();
-  ctx.translate(cx, tipY);
-  ctx.rotate(Math.PI);
-
-  const totalLen  = tipY;
-  const bladeLen  = Math.min(totalLen - 30, 110);
-  const handleLen = totalLen - bladeLen;
-
-  // Manche bois
-  const hGrad = ctx.createLinearGradient(-w * 0.38, 0, w * 0.38, 0);
-  hGrad.addColorStop(0,   '#2c1a0a');
-  hGrad.addColorStop(0.2, '#7a4e28');
-  hGrad.addColorStop(0.5, '#a0683a');
-  hGrad.addColorStop(0.8, '#7a4e28');
-  hGrad.addColorStop(1,   '#2c1a0a');
-  ctx.fillStyle = hGrad;
-  ctx.beginPath();
-  ctx.roundRect(-w * 0.38, 0, w * 0.76, handleLen, [4, 4, 2, 2]);
-  ctx.fill();
-
-  ctx.strokeStyle = 'rgba(0,0,0,0.18)';
-  ctx.lineWidth = 1;
-  for (let i = 8; i < handleLen - 4; i += 10) {
-    ctx.beginPath();
-    ctx.moveTo(-w * 0.35, i);
-    ctx.lineTo( w * 0.35, i);
-    ctx.stroke();
-  }
-
-  [handleLen * 0.25, handleLen * 0.6].forEach(ry => {
-    ctx.fillStyle = '#c8a040';
-    ctx.beginPath();
-    ctx.ellipse(0, ry, w * 0.12, 4, 0, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.strokeStyle = '#8a6010';
-    ctx.lineWidth = 0.8;
-    ctx.stroke();
+// 1. Préchargement (une seule fois, au démarrage)
+function loadImage(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload  = () => resolve(img);
+    img.onerror = () => reject(new Error(`Impossible de charger : ${src}`));
+    img.src = src;
   });
-
-  ctx.strokeStyle = '#1a0a00';
-  ctx.lineWidth = 1.2;
-  ctx.beginPath();
-  ctx.roundRect(-w * 0.38, 0, w * 0.76, handleLen, [4, 4, 2, 2]);
-  ctx.stroke();
-
-  const gY = handleLen;
-  ctx.fillStyle = '#b0b8c8';
-  ctx.beginPath();
-  ctx.roundRect(-w * 0.58, gY - 5, w * 1.16, 12, 3);
-  ctx.fill();
-  const gGrad = ctx.createLinearGradient(-w * 0.58, gY, w * 0.58, gY);
-  gGrad.addColorStop(0,   'rgba(255,255,255,0.3)');
-  gGrad.addColorStop(0.5, 'rgba(255,255,255,0.0)');
-  gGrad.addColorStop(1,   'rgba(0,0,0,0.2)');
-  ctx.fillStyle = gGrad;
-  ctx.beginPath();
-  ctx.roundRect(-w * 0.58, gY - 5, w * 1.16, 12, 3);
-  ctx.fill();
-  ctx.strokeStyle = '#707888';
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.roundRect(-w * 0.58, gY - 5, w * 1.16, 12, 3);
-  ctx.stroke();
-
-  const bY    = gY + 7;
-  const bGrad = ctx.createLinearGradient(-w * 0.42, bY, w * 0.42, bY);
-  bGrad.addColorStop(0,   '#d8dde8');
-  bGrad.addColorStop(0.3, '#f5f8ff');
-  bGrad.addColorStop(0.7, '#e8eaf0');
-  bGrad.addColorStop(1,   '#8090a8');
-  ctx.fillStyle = bGrad;
-  ctx.beginPath();
-  ctx.moveTo(-w * 0.42, bY);
-  ctx.lineTo( w * 0.42, bY);
-  ctx.quadraticCurveTo(w * 0.38, bY + bladeLen * 0.6, 0, bY + bladeLen);
-  ctx.lineTo(-w * 0.38, bY + bladeLen - 8);
-  ctx.closePath();
-  ctx.fill();
-  ctx.strokeStyle = '#5a6878';
-  ctx.lineWidth = 0.8;
-  ctx.stroke();
-
-  ctx.strokeStyle = 'rgba(255,255,255,0.6)';
-  ctx.lineWidth = 1.2;
-  ctx.beginPath();
-  ctx.moveTo(-w * 0.28, bY + 4);
-  ctx.quadraticCurveTo(-w * 0.2, bY + bladeLen * 0.55, -w * 0.04, bY + bladeLen - 10);
-  ctx.stroke();
-
-  ctx.fillStyle = 'rgba(255,255,255,0.45)';
-  ctx.beginPath();
-  ctx.moveTo( w * 0.1,  bY + 4);
-  ctx.lineTo( w * 0.3,  bY + 4);
-  ctx.quadraticCurveTo(w * 0.25, bY + bladeLen * 0.4, w * 0.04, bY + bladeLen * 0.5);
-  ctx.lineTo(-w * 0.02, bY + bladeLen * 0.5);
-  ctx.closePath();
-  ctx.fill();
-
-  ctx.restore();
 }
 
-//  COUTEAU DEPUIS LE SOL (pointe vers le haut)
+let knifeImg = null;
+
+async function init() {
+  knifeImg = await loadImage('./knife2.png');
+  startGame();
+}
+
+// 2. Dessin (pointe en bas)
+function drawKnifeFromTop(ctx, cx, tipY, w, GROUND) {
+  if (!knifeImg) return;
+  const totalLen = GROUND - tipY;
+  ctx.drawImage(knifeImg, cx - w / 2, tipY, w, totalLen);
+}
+
+// 3. Dessin (pointe en haut)
 function drawKnifeFromFloor(ctx, cx, tipY, w, GROUND) {
+  if (!knifeImg) return;
+  const totalLen = GROUND - tipY;
   ctx.save();
-  ctx.translate(cx, tipY);
-
-  const totalLen  = GROUND - tipY;
-  const bladeLen  = Math.min(totalLen - 30, 110);
-  const handleLen = totalLen - bladeLen;
-
-  const bGrad = ctx.createLinearGradient(-w * 0.42, 0, w * 0.42, 0);
-  bGrad.addColorStop(0,   '#d8dde8');
-  bGrad.addColorStop(0.3, '#f5f8ff');
-  bGrad.addColorStop(0.7, '#e8eaf0');
-  bGrad.addColorStop(1,   '#8090a8');
-  ctx.fillStyle = bGrad;
-  ctx.beginPath();
-  ctx.moveTo(-w * 0.42, -bladeLen + 8);
-  ctx.lineTo( w * 0.42, -bladeLen + 8);
-  ctx.quadraticCurveTo(w * 0.38, -bladeLen * 0.4, 0, 0);
-  ctx.lineTo(-w * 0.38, -8);
-  ctx.closePath();
-  ctx.fill();
-  ctx.strokeStyle = '#5a6878';
-  ctx.lineWidth = 0.8;
-  ctx.stroke();
-
-  ctx.strokeStyle = 'rgba(255,255,255,0.6)';
-  ctx.lineWidth = 1.2;
-  ctx.beginPath();
-  ctx.moveTo(-w * 0.28, -bladeLen + 12);
-  ctx.quadraticCurveTo(-w * 0.2, -bladeLen * 0.45, -w * 0.04, -10);
-  ctx.stroke();
-
-  ctx.fillStyle = 'rgba(255,255,255,0.45)';
-  ctx.beginPath();
-  ctx.moveTo( w * 0.1,  -bladeLen + 12);
-  ctx.lineTo( w * 0.3,  -bladeLen + 12);
-  ctx.quadraticCurveTo(w * 0.25, -bladeLen * 0.6, w * 0.04, -bladeLen * 0.5);
-  ctx.lineTo(-w * 0.02, -bladeLen * 0.5);
-  ctx.closePath();
-  ctx.fill();
-
-  const gY = -bladeLen + 2;
-  ctx.fillStyle = '#b0b8c8';
-  ctx.beginPath();
-  ctx.roundRect(-w * 0.58, gY - 5, w * 1.16, 12, 3);
-  ctx.fill();
-  const gGrad = ctx.createLinearGradient(-w * 0.58, gY, w * 0.58, gY);
-  gGrad.addColorStop(0,   'rgba(255,255,255,0.3)');
-  gGrad.addColorStop(0.5, 'rgba(255,255,255,0.0)');
-  gGrad.addColorStop(1,   'rgba(0,0,0,0.2)');
-  ctx.fillStyle = gGrad;
-  ctx.beginPath();
-  ctx.roundRect(-w * 0.58, gY - 5, w * 1.16, 12, 3);
-  ctx.fill();
-  ctx.strokeStyle = '#707888';
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.roundRect(-w * 0.58, gY - 5, w * 1.16, 12, 3);
-  ctx.stroke();
-
-  const hY    = gY + 7;
-  const hGrad = ctx.createLinearGradient(-w * 0.38, 0, w * 0.38, 0);
-  hGrad.addColorStop(0,   '#2c1a0a');
-  hGrad.addColorStop(0.2, '#7a4e28');
-  hGrad.addColorStop(0.5, '#a0683a');
-  hGrad.addColorStop(0.8, '#7a4e28');
-  hGrad.addColorStop(1,   '#2c1a0a');
-  ctx.fillStyle = hGrad;
-  ctx.beginPath();
-  ctx.roundRect(-w * 0.38, hY, w * 0.76, handleLen, [2, 2, 4, 4]);
-  ctx.fill();
-
-  ctx.strokeStyle = 'rgba(0,0,0,0.18)';
-  ctx.lineWidth = 1;
-  for (let i = 8; i < handleLen - 4; i += 10) {
-    ctx.beginPath();
-    ctx.moveTo(-w * 0.35, hY + i);
-    ctx.lineTo( w * 0.35, hY + i);
-    ctx.stroke();
-  }
-
-  [handleLen * 0.25, handleLen * 0.6].forEach(ry => {
-    ctx.fillStyle = '#c8a040';
-    ctx.beginPath();
-    ctx.ellipse(0, hY + ry, w * 0.12, 4, 0, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.strokeStyle = '#8a6010';
-    ctx.lineWidth = 0.8;
-    ctx.stroke();
-  });
-
-  ctx.strokeStyle = '#1a0a00';
-  ctx.lineWidth = 1.2;
-  ctx.beginPath();
-  ctx.roundRect(-w * 0.38, hY, w * 0.76, handleLen, [2, 2, 4, 4]);
-  ctx.stroke();
-
+  ctx.translate(cx, tipY + totalLen);
+  ctx.scale(1, -1);
+  ctx.drawImage(knifeImg, -w / 2, 0, w, totalLen);
   ctx.restore();
 }
+
+// Démarrage
+init();
 
 //  JOUEUR (emoji avec ombre)
 function drawPlayer(ctx, px, py, pw, ph, GROUND, vy = 0, emoji = '🥕') {
