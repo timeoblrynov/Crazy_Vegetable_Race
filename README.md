@@ -7,7 +7,7 @@ Crazy Vegetable Race est un jeu inspiré de Flappy Bird. Votre objectif est d’
 
 ```bash
 # Cloner le dépôt
-git clone https://ytrack.learn.ynov.com/git/baymeric/Puissance4.git
+git clone https://github.com/timeoblrynov/Crazy_Vegetable_Race
 
 # Se déplacer dans le dossier du projet
 cd Crazy_Vegetable_Race
