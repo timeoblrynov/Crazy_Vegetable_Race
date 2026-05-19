@@ -9,6 +9,10 @@ const SKINS = [
   { id: 'ail', emoji: '🧄', nom: 'Ail', prix: 40 },
 ];
 
+document.getElementById('vol-musique').addEventListener('input', function() {
+    localStorage.setItem('cvr_volume', this.value / 100);
+});
+
 const state = {
   coins: Number(localStorage.getItem('cvr_coins') || '0'),
   best: Number(localStorage.getItem('cvr_best') || '0'),

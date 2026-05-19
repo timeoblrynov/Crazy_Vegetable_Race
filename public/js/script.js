@@ -1,5 +1,7 @@
 const block = document.getElementById("block");
 const space = document.getElementById("space");
+const blockTop = document.getElementById("block-top");
+const blockBottom = document.getElementById("block-bottom");
 const items = document.getElementById("items");
 const scoreEl = document.getElementById("score");
 const time = document.getElementById("time")
@@ -21,8 +23,29 @@ const skinById = {
   ail: "🧄",
 };
 
+const musique = document.getElementById("musique-jeu");
+musique.volume = 0.7;
+musique.play();
+
+const vol = parseFloat(localStorage.getItem('cvr_volume') ?? '0.7');
+musique.volume = vol;
+
 const selectedSkin = localStorage.getItem("cvr_skin") || "carotte";
 items.textContent = skinById[selectedSkin] || "🥕";
+
+const SPACE_HEIGHT = 200;
+const TOTAL_HEIGHT = 850;
+
+function updateKnifeHeights() {
+    const spaceTop = parseInt(space.style.top) || -500;
+    const topHeight = Math.max(0, TOTAL_HEIGHT + spaceTop);
+    const bottomHeight = Math.max(0, TOTAL_HEIGHT - topHeight - SPACE_HEIGHT);
+    blockTop.style.height = topHeight + "px";
+    blockBottom.style.height = bottomHeight + "px";
+}
+
+// Init au chargement
+updateKnifeHeights();
 
 function startChrono() {
     setInterval(() => {
@@ -59,6 +82,9 @@ function endGame() {
     if (score > best) localStorage.setItem("cvr_best", String(score));
     localStorage.setItem("cvr_coins", String(coins + Math.floor(score / 2)));
 
+    musique.pause();
+    musique.currentTime = 0;
+
     alert(
         `Game over\nScore : ${score}\nPièces gagnées : ${Math.floor(score / 2)}\nTemps : ${gameTime}`,
     );
@@ -70,6 +96,7 @@ space.addEventListener("animationiteration", () => {
     space.style.top = `${random}px`;
     score += 1;
     scoreEl.textContent = score;
+    updateKnifeHeights();
 });
 
 setInterval(function () {
