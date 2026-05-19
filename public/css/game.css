@@ -44,10 +44,27 @@ body {
 #block {
 	width: 50px;
 	height: 850px;
-	background: #1d1d1d;
+	background: transparent;
 	position: relative;
 	left: 100px;
 	animation: block 5s infinite linear;
+}
+
+#block-top {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	background: url('../img/knife2.png') center top / cover no-repeat;
+}
+
+#block-bottom {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	background: url('../img/knife2.png') center bottom / cover no-repeat;
+	transform: scaleY(-1);
 }
 
 @keyframes block {
@@ -63,7 +80,7 @@ body {
 #space {
 	width: 50px;
 	height: 200px;
-	background: linear-gradient(#5bc8f5, #a8e8c8);
+	background: transparent;
 	position: relative;
 	left: 100px;
 	top: -500px;
